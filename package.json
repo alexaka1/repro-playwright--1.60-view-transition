@@ -1,0 +1,14 @@
+{
+  "name": "playwright-mpa-view-transition-click-hang",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:1.60": "npm i @playwright/test@1.60.0 && npx playwright install chromium && playwright test",
+    "test:1.61": "npm i @playwright/test@1.61.1 && npx playwright install chromium && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "serve": "^14.0.0"
+  }
+}
