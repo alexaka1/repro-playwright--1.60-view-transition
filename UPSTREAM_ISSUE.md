@@ -109,7 +109,7 @@ These are workarounds, not what this issue is about:
 
 ## Background (for issue author context)
 
-Empirical findings from a production app (ZaWinWeb) that led to this minimal repro:
+Empirical findings that led to this minimal repro:
 
 1. CI failed on Playwright 1.61.1 bump: 13/27 a11y tests and 36+ E2E tests timed out on `locator.click()` / `.check()` after login navigation.
 2. All failures: exactly ~30 s on `waiting for element to be visible, enabled and stable` with **no** sub-checks or retries.
