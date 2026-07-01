@@ -77,8 +77,8 @@ So this is not a user-facing Chrome bug -- it is Playwright's `_checkElementIsSt
 
 ### Environment
 
-OS:
-Node:
+OS: Linux 6.12.58+ x86_64 GNU/Linux
+Node: v22.14.0
 @playwright/test: 1.61.1
 
 ### Attachment
