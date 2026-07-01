@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 
 async function navigateWithViewTransition(page: Page) {
   await page.goto('/login.html');
-  const navigation = page.waitForURL('**/home.html');
+  const navigation = page.waitForURL(/\/home(?:\.html)?$/);
   await page.locator('a[href="/home.html"]').evaluate((link: HTMLAnchorElement) => link.click());
   await navigation;
 }
