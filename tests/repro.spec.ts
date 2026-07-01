@@ -1,13 +1,18 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function navigateWithViewTransition(page: Page) {
+  await page.goto('/login.html');
+  const navigation = page.waitForURL('**/home.html');
+  await page.locator('a[href="/home.html"]').evaluate((link: HTMLAnchorElement) => link.click());
+  await navigation;
+}
 
 test.describe('MPA view-transition click hang', () => {
   test('locator.click hangs after MPA navigation (PW 1.61 / Chromium 149)', async ({ page }) => {
     const pageErrors: string[] = [];
     page.on('pageerror', (e) => pageErrors.push(String(e)));
 
-    await page.goto('/login.html');
-    await page.getByRole('link', { name: 'Login' }).click();
-    await page.waitForURL('**/home.html');
+    await navigateWithViewTransition(page);
 
     const vt = await page.evaluate(() => ({
       hasActiveVt: !!document.activeViewTransition,
@@ -25,9 +30,7 @@ test.describe('MPA view-transition click hang', () => {
   });
 
   test('native element.click() works on same page state', async ({ page }) => {
-    await page.goto('/login.html');
-    await page.getByRole('link', { name: 'Login' }).click();
-    await page.waitForURL('**/home.html');
+    await navigateWithViewTransition(page);
 
     const t0 = Date.now();
     await page.evaluate(() => document.getElementById('action')!.click());
@@ -36,9 +39,7 @@ test.describe('MPA view-transition click hang', () => {
   });
 
   test('diagnostic: bounding box samples while activeViewTransition may be set', async ({ page }) => {
-    await page.goto('/login.html');
-    await page.getByRole('link', { name: 'Login' }).click();
-    await page.waitForURL('**/home.html');
+    await navigateWithViewTransition(page);
 
     const samples = await page.evaluate(async () => {
       const btn = document.getElementById('action')!;
